@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Visor 360 - Mesa 4</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; overflow: hidden; }
+    #menu {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      z-index: 999;
+    }
+    button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px 20px;
+      background-color: #2196F3;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1976D2;
+    }
+    button.active {
+      background-color: #0D47A1;
+    }
+  </style>
+</head>
+<body>
+  <div id="menu">
+    <h3>Escenas</h3>
+    <button onclick="cambiarImagen('Lab_Bioquimica.jpg')" class="active">Laboratorio Bioquímica</button>
+    <button onclick="cambiarImagen('escaleras.jpg')">Escaleras</button>
+  </div>
+
+  <a-scene>
+    <a-sky id="panorama" src="Lab_Bioquimica.jpg" rotation="0 -130 0"></a-sky>
+    <a-entity id="rig" movement-controls="fly: true; speed: 0.5">
+      <a-entity id="camera" position="0 1.6 0" camera look-controls="reverseMouseDrag: true">
+        <a-entity cursor="fuse: false; rayOrigin: mouse"
+                  raycaster="objects: .clickable"
+                  position="0 0 -1"
+                  geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                  material="color: white; shader: flat"></a-entity>
+      </a-entity>
+    </a-entity>
+    <a-entity id="leftHand" oculus-touch-controls="hand: left"></a-entity>
+    <a-entity id="rightHand" oculus-touch-controls="hand: right"></a-entity>
+  </a-scene>
+
+  <script>
+    function cambiarImagen(src) {
+      document.getElementById('panorama').setAttribute('src', src);
+      document.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
